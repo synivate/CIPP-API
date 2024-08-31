@@ -3,7 +3,9 @@ using namespace System.Net
 Function Invoke-ListUsers {
     <#
     .FUNCTIONALITY
-    Entrypoint
+        Entrypoint
+    .ROLE
+        Identity.User.Read
     #>
     [CmdletBinding()]
     param($Request, $TriggerMetadata)
@@ -13,7 +15,7 @@ Function Invoke-ListUsers {
     $selectlist = 'id', 'accountEnabled', 'displayName', 'userPrincipalName', 'username', 'userType', 'createdDateTime', 'companyName', 'country', 'department', 'businessPhones', 'city', 'faxNumber', 'givenName', 'isResourceAccount', 'jobTitle', 'mobilePhone', 'officeLocation', 'postalCode', 'preferredDataLocation', 'preferredLanguage', 'mail', 'mailNickname', 'proxyAddresses', 'Aliases', 'otherMails', 'showInAddressList', 'state', 'streetAddress', 'surname', 'usageLocation', 'LicJoined', 'assignedLicenses', 'onPremisesSyncEnabled', 'OnPremisesImmutableId', 'onPremisesDistinguishedName', 'onPremisesLastSyncDateTime', 'primDomain', 'Tenant', 'CippStatus'
     # Write to the Azure Functions log stream.
     Write-Host 'PowerShell HTTP trigger function processed a request.'
-    $ConvertTable = Import-Csv Conversiontable.csv | Sort-Object -Property 'guid' -Unique
+    $ConvertTable = Import-Csv ConversionTable.csv | Sort-Object -Property 'guid' -Unique
     # Interact with query parameters or the body of the request.
     $TenantFilter = $Request.Query.TenantFilter
     $GraphFilter = $Request.Query.graphFilter
@@ -72,11 +74,11 @@ Function Invoke-ListUsers {
             Id              = $AuditlogsLogon.errorNumber
             Status          = $AuditlogsLogon.ResultStatus
         }
-        $GraphRequest = $GraphRequest | Select-Object *, 
+        $GraphRequest = $GraphRequest | Select-Object *,
         @{ Name = 'LastSigninApplication'; Expression = { $LastSignIn.AppDisplayName } },
         @{ Name = 'LastSigninDate'; Expression = { $($LastSignIn.CreatedDateTime | Out-String) } },
         @{ Name = 'LastSigninStatus'; Expression = { $AuditlogsLogon.operation } },
-        @{ Name = 'LastSigninResult'; Expression = { $LastSignIn.status } }, 
+        @{ Name = 'LastSigninResult'; Expression = { $LastSignIn.status } },
         @{ Name = 'LastSigninFailureReason'; Expression = { if ($LastSignIn.Id -eq 0) { 'Sucessfully signed in' } else { $LastSignIn.Id } } }
     }
     # Associate values to output bindings by calling 'Push-OutputBinding'.
