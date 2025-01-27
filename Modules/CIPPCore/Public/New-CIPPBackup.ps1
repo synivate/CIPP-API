@@ -21,12 +21,15 @@ function New-CIPPBackup {
                     'standards'
                     'SchedulerConfig'
                     'Extensions'
+                    'WebhookRules'
+                    'ScheduledTasks'
                 )
                 $CSVfile = foreach ($CSVTable in $BackupTables) {
                     $Table = Get-CippTable -tablename $CSVTable
-                    Get-AzDataTableEntity @Table | Select-Object *, @{l = 'table'; e = { $CSVTable } } -ExcludeProperty DomainAnalyser
+                    Get-AzDataTableEntity @Table | Select-Object * -ExcludeProperty DomainAnalyser, table, Timestamp, ETag | Select-Object *, @{l = 'table'; e = { $CSVTable } }
                 }
                 $RowKey = 'CIPPBackup' + '_' + (Get-Date).ToString('yyyy-MM-dd-HHmm')
+                $CSVfile
                 $CSVFile = [string]($CSVfile | ConvertTo-Json -Compress -Depth 100)
                 $entity = @{
                     PartitionKey = 'CIPPBackup'
