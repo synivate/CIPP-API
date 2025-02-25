@@ -13,7 +13,6 @@ function Invoke-CIPPStandardEXODisableAutoForwarding {
         CAT
             Exchange Standards
         TAG
-            "highimpact"
             "CIS"
             "mdo_autoforwardingmode"
             "mdo_blockmailforward"
@@ -24,10 +23,11 @@ function Invoke-CIPPStandardEXODisableAutoForwarding {
             Set-HostedOutboundSpamFilterPolicy -AutoForwardingMode 'Off'
         RECOMMENDEDBY
             "CIS"
+            "CIPP"
         UPDATECOMMENTBLOCK
             Run the Tools\Update-StandardsComments.ps1 script to update this comment block
     .LINK
-        https://docs.cipp.app/user-documentation/tenant/standards/edit-standards
+        https://docs.cipp.app/user-documentation/tenant/standards/list-standards/exchange-standards#high-impact
     #>
 
     param($Tenant, $Settings)

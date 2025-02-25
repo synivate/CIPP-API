@@ -13,7 +13,6 @@ function Invoke-CIPPStandardDisableAppCreation {
         CAT
             Entra (AAD) Standards
         TAG
-            "lowimpact"
             "CIS"
         ADDEDCOMPONENT
         IMPACT
@@ -22,10 +21,11 @@ function Invoke-CIPPStandardDisableAppCreation {
             Update-MgPolicyAuthorizationPolicy
         RECOMMENDEDBY
             "CIS"
+            "CIPP"
         UPDATECOMMENTBLOCK
             Run the Tools\Update-StandardsComments.ps1 script to update this comment block
     .LINK
-        https://docs.cipp.app/user-documentation/tenant/standards/edit-standards
+        https://docs.cipp.app/user-documentation/tenant/standards/list-standards/entra-aad-standards#low-impact
     #>
 
     param($Tenant, $Settings)

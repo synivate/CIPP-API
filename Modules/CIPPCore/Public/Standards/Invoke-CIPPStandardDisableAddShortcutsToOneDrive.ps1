@@ -13,9 +13,8 @@ function Invoke-CIPPStandardDisableAddShortcutsToOneDrive {
         CAT
             SharePoint Standards
         TAG
-            "mediumimpact"
         ADDEDCOMPONENT
-            {"type":"Select","label":"Add Shortcuts To OneDrive button state","name":"standards.DisableAddShortcutsToOneDrive.state","values":[{"label":"Disabled","value":"true"},{"label":"Enabled","value":"false"}]}
+            {"type":"autoComplete","multiple":false,"creatable":false,"label":"Add Shortcuts To OneDrive button state","name":"standards.DisableAddShortcutsToOneDrive.state","options":[{"label":"Disabled","value":"true"},{"label":"Enabled","value":"false"}]}
         IMPACT
             Medium Impact
         POWERSHELLEQUIVALENT
@@ -24,7 +23,7 @@ function Invoke-CIPPStandardDisableAddShortcutsToOneDrive {
         UPDATECOMMENTBLOCK
             Run the Tools\Update-StandardsComments.ps1 script to update this comment block
     .LINK
-        https://docs.cipp.app/user-documentation/tenant/standards/edit-standards
+        https://docs.cipp.app/user-documentation/tenant/standards/list-standards/sharepoint-standards#medium-impact
     #>
 
     param($Tenant, $Settings)
@@ -37,12 +36,13 @@ function Invoke-CIPPStandardDisableAddShortcutsToOneDrive {
     }
 
     # Input validation
-    if (([string]::IsNullOrWhiteSpace($Settings.state) -or $Settings.state -eq 'Select a value') -and ($Settings.remediate -eq $true -or $Settings.alert -eq $true)) {
+    $StateValue = $Settings.state.value ?? $Settings.state
+    if (([string]::IsNullOrWhiteSpace($StateValue) -or $StateValue -eq 'Select a value') -and ($Settings.remediate -eq $true -or $Settings.alert -eq $true)) {
         Write-LogMessage -API 'Standards' -tenant $tenant -message 'DisableAddShortcutsToOneDrive: Invalid state parameter set' -sev Error
         Return
     }
 
-    $WantedState = [System.Convert]::ToBoolean($Settings.state)
+    $WantedState = [System.Convert]::ToBoolean($StateValue)
     $StateIsCorrect = if ($CurrentState.DisableAddToOneDrive -eq $WantedState) { $true } else { $false }
     $HumanReadableState = if ($WantedState -eq $true) { 'disabled' } else { 'enabled' }
 

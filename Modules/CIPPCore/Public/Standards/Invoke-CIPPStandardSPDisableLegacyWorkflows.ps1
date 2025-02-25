@@ -13,7 +13,6 @@ function Invoke-CIPPStandardSPDisableLegacyWorkflows {
         CAT
             SharePoint Standards
         TAG
-            "lowimpact"
         ADDEDCOMPONENT
         IMPACT
             Low Impact
@@ -23,7 +22,7 @@ function Invoke-CIPPStandardSPDisableLegacyWorkflows {
         UPDATECOMMENTBLOCK
             Run the Tools\Update-StandardsComments.ps1 script to update this comment block
     .LINK
-        https://docs.cipp.app/user-documentation/tenant/standards/edit-standards
+        https://docs.cipp.app/user-documentation/tenant/standards/list-standards/sharepoint-standards#low-impact
     #>
     param($Tenant, $Settings)
     ##$Rerun -Type Standard -Tenant $Tenant -Settings $Settings 'SPDisableLegacyWorkflows'

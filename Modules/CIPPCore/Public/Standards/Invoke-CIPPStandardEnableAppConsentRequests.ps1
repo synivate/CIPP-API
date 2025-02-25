@@ -13,7 +13,6 @@ function Invoke-CIPPStandardEnableAppConsentRequests {
         CAT
             Entra (AAD) Standards
         TAG
-            "lowimpact"
             "CIS"
         ADDEDCOMPONENT
             {"type":"AdminRolesMultiSelect","label":"App Consent Reviewer Roles","name":"standards.EnableAppConsentRequests.ReviewerRoles"}
@@ -26,7 +25,7 @@ function Invoke-CIPPStandardEnableAppConsentRequests {
         UPDATECOMMENTBLOCK
             Run the Tools\Update-StandardsComments.ps1 script to update this comment block
     .LINK
-        https://docs.cipp.app/user-documentation/tenant/standards/edit-standards
+        https://docs.cipp.app/user-documentation/tenant/standards/list-standards/entra-aad-standards#low-impact
     #>
 
     param($Tenant, $Settings)

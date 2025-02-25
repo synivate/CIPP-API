@@ -13,19 +13,19 @@ function Invoke-CIPPStandardDisableReshare {
         CAT
             SharePoint Standards
         TAG
-            "highimpact"
             "CIS"
         ADDEDCOMPONENT
         IMPACT
             High Impact
         POWERSHELLEQUIVALENT
-            Update-MgBetaAdminSharepointSetting
+            Update-MgBetaAdminSharePointSetting
         RECOMMENDEDBY
             "CIS"
+            "CIPP"
         UPDATECOMMENTBLOCK
             Run the Tools\Update-StandardsComments.ps1 script to update this comment block
     .LINK
-        https://docs.cipp.app/user-documentation/tenant/standards/edit-standards
+        https://docs.cipp.app/user-documentation/tenant/standards/list-standards/sharepoint-standards#high-impact
     #>
 
     param($Tenant, $Settings)

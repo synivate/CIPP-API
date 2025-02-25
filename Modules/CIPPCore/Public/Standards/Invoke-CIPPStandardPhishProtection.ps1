@@ -13,12 +13,11 @@ function Invoke-CIPPStandardPhishProtection {
         CAT
             Global Standards
         TAG
-            "lowimpact"
         ADDEDCOMPONENT
         IMPACT
             Low Impact
         DISABLEDFEATURES
-
+            
         POWERSHELLEQUIVALENT
             Portal only
         RECOMMENDEDBY
@@ -26,7 +25,7 @@ function Invoke-CIPPStandardPhishProtection {
         UPDATECOMMENTBLOCK
             Run the Tools\Update-StandardsComments.ps1 script to update this comment block
     .LINK
-        https://docs.cipp.app/user-documentation/tenant/standards/edit-standards
+        https://docs.cipp.app/user-documentation/tenant/standards/list-standards/global-standards#low-impact
     #>
 
     param($Tenant, $Settings)
