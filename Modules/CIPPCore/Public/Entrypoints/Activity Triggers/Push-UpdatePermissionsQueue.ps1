@@ -23,12 +23,14 @@ function Push-UpdatePermissionsQueue {
             $DomainRefreshRequired = $true
         }
         Write-Information 'Updating permissions'
-        Add-CIPPApplicationPermission -RequiredResourceAccess 'CippDefaults' -ApplicationId $ENV:ApplicationID -tenantfilter $Item.customerId
-        Add-CIPPDelegatedPermission -RequiredResourceAccess 'CippDefaults' -ApplicationId $ENV:ApplicationID -tenantfilter $Item.customerId
+        Add-CIPPApplicationPermission -RequiredResourceAccess 'CIPPDefaults' -ApplicationId $ENV:ApplicationID -tenantfilter $Item.customerId
+        Add-CIPPDelegatedPermission -RequiredResourceAccess 'CIPPDefaults' -ApplicationId $ENV:ApplicationID -tenantfilter $Item.customerId
         Write-LogMessage -tenant $Item.defaultDomainName -tenantId $Item.customerId -message "Updated permissions for $($Item.displayName)" -Sev 'Info' -API 'UpdatePermissionsQueue'
 
-        Write-Information 'Pushing CIPP-SAM admin roles'
-        Set-CIPPSAMAdminRoles -TenantFilter $Item.customerId
+        if ($Item.defaultDomainName -ne 'PartnerTenant') {
+            Write-Information 'Pushing CIPP-SAM admin roles'
+            Set-CIPPSAMAdminRoles -TenantFilter $Item.customerId
+        }
 
         $Table = Get-CIPPTable -TableName cpvtenants
         $unixtime = [int64](([datetime]::UtcNow) - (Get-Date '1/1/1970')).TotalSeconds
