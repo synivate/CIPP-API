@@ -9,15 +9,16 @@ function Invoke-ExecAppUpload {
     param($Request, $TriggerMetadata)
 
     try {
+        # Start the orchestrator directly - it handles queuing internally
         Start-ApplicationOrchestrator
+        $Results = [pscustomobject]@{'Results' = 'Application upload job has started. Track the logbook for results.' }
     } catch {
-        Write-Host "orchestrator error: $($_.Exception.Message)"
+        $Results = [pscustomobject]@{'Results' = "Failed to start application upload. Error: $($_.Exception.Message)" }
     }
 
-    $Results = [pscustomobject]@{'Results' = 'Started application queue' }
-    Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+    return ([HttpResponseContext]@{
             StatusCode = [HttpStatusCode]::OK
-            Body       = $results
+            Body       = $Results
         })
 
 }

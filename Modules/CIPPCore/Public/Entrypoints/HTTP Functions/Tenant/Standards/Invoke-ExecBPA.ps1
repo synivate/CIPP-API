@@ -1,18 +1,23 @@
 function Invoke-ExecBPA {
     <#
         .FUNCTIONALITY
-        Entrypoint
+        Entrypoint,AnyTenant
         .ROLE
         Tenant.BestPracticeAnalyser.ReadWrite
     #>
     [CmdletBinding()]
     param($Request, $TriggerMetadata)
 
-    Start-BPAOrchestrator -TenantFilter $Request.Query.TenantFilter
+    $TenantFilter = $Request.Query.tenantFilter ? $Request.Query.tenantFilter.value : $Request.Body.tenantfilter.value
 
-    $Results = [pscustomobject]@{'Results' = 'BPA started' }
-    Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+    # Start the orchestrator - it will handle queuing internally
+    Start-BPAOrchestrator -TenantFilter $TenantFilter -Force
+
+    $Results = [pscustomobject]@{'Results' = 'BPA queued for execution' }
+
+    return ([HttpResponseContext]@{
             StatusCode = [HttpStatusCode]::OK
             Body       = $Results
         })
+
 }
